@@ -96,3 +96,21 @@ class binary_Tree:
                 parent.left = left.left
             else:
                 parent.right = left.left
+
+    def min_tree(self):
+        p = self.root
+        if p is None:
+            return False
+        while p.left is not None:
+            p = p.left
+
+        return p.key
+
+    def max_tree(self):
+        p = self.root
+        if p is None:
+            return False
+        while p.right is not None:
+            p = p.right
+
+        return p.key

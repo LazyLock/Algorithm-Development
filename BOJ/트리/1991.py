@@ -1,32 +1,46 @@
 import sys
 
+
+class Node:
+    def __init__(self, data, left, right):
+        self.data = data
+        self.left = left
+        self.right = right
+
+
+def preorder(node):
+    if node is None:
+        return
+    print(node.data, end='')
+    preorder(tree[node.left])
+    preorder(tree[node.right])
+
+
+def inorder(node):
+    if node is None:
+        return
+    inorder(tree[node.left])
+    print(node.data, end='')
+    inorder(tree[node.right])
+
+
+def postorder(node):
+    if node is None:
+        return
+    postorder(tree[node.left])
+    postorder(tree[node.right])
+    print(node.data, end='')
+
+
 n = int(sys.stdin.readline())
-tree = {}
+tree = {'.': None}
 
 for _ in range(n):
     a, b, c = sys.stdin.readline().split()
-    tree[a] = [b, c]
+    tree[a] = Node(a, b, c)
 
-def preorder(s):
-    if s != '.':
-        print(s, end='')
-        preorder(tree[s][0])
-        preorder(tree[s][1])
-
-def inorder(s):
-    if s != '.':
-        inorder(tree[s][0])
-        print(s, end='')
-        inorder(tree[s][1])
-
-def postorder(s):
-    if s != '.':
-        postorder(tree[s][0])
-        postorder(tree[s][1])
-        print(s, end='')
-
-preorder('A')
+preorder(tree['A'])
 print()
-inorder('A')
+inorder(tree['A'])
 print()
-postorder('A')
+postorder(tree['A'])

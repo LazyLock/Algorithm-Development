@@ -1,24 +1,26 @@
-from collections import deque
+m, n = map(int, input().split())
 
-n, m = map(int, input().split())
-visit = [0] * 100001
+queue = [m]
+flag = False
+cnt = 0
+visit = [False] * 100001
 
-
-def bfs(x):
-    queue = deque()
-    queue.append(n)
-
-    while queue:
-        a = queue.popleft()
-
-        if a == m:
-            print(visit[a])
+while queue:
+    new_queue = []
+    for i in queue:
+        if i == n:
+            flag = True
             break
 
-        for j in (a - 1, a + 1, a * 2):
-            if 0 <= j <= 100000 and visit[j] == 0:
-                visit[j] = visit[a] + 1
-                queue.append(j)
+        for j in (i - 1, i + 1, i * 2):
+            if 0 <= j <= 100000 and not visit[j]:
+                visit[j] = True
+                new_queue.append(j)
 
+    queue = new_queue
+    cnt += 1
 
-bfs(n)
+    if flag:
+        break
+
+print(cnt)

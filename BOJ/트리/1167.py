@@ -2,31 +2,35 @@ import sys
 from collections import deque
 
 n = int(sys.stdin.readline())
-tree = [[] for _ in range(n + 1)]
+tree = {j: [] for j in range(n + 1)}
 
 for _ in range(n):
     list1 = list(map(int, sys.stdin.readline().split()))
-    x = len(list1)
-    for i in range(1, x - 1, 2):
-        tree[list1[0]].append([list1[i], list1[i + 1]])
+    len_list1 = len(list1)
+    x = list1[0]
+    for i in range(1, len_list1 - 1, 2):
+        tree[x].append([list1[i], list1[i + 1]])
 
 
 def bfs(a):
     q = deque()
-    q.append(a)
-    visit = [0] * (n + 1)
-    visit[a] = 1
+    q.append([a, 0])
+    visit = [False] * (n + 1)
+    visit[a] = True
+    result = [0, 0]
 
     while q:
-        node = q.popleft()
-        for j in tree[node]:
-            next_node, dist = j[0], j[1]
-            if visit[next_node] == 0:
-                q.append(next_node)
-                visit[next_node] = visit[node] + dist
+        now_node, cnt = q.popleft()  # cnt는 직전까지의 가중치의 합
+        for j in tree[now_node]:
+            next_node, next_dist = j[0], j[1]
+            if not visit[next_node]:
+                visit[next_node] = True
+                q.append([next_node, cnt + next_dist])
+                if result[1] <= cnt + next_dist:
+                    result[0] = next_node
+                    result[1] = cnt + next_dist
 
-    return visit
+    return result
 
-visited = bfs(1)
-result = bfs(visited.index(max(visited)))
-print(max(result) - 1)
+
+print(bfs(bfs(1)[0])[1])
